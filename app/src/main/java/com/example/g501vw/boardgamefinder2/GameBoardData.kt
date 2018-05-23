@@ -42,6 +42,10 @@ class GameBoardData {
         nameList.addAll(list)
     }
 
+    fun setnumberMember(num : Int){
+        this.currPlayer = num
+    }
+
     fun addMember(name : String) {
         nameList.add(name)
     }

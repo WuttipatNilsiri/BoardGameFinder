@@ -38,9 +38,9 @@ class GameBoardDetailActivity : AppCompatActivity() {
         val name = bundle!!.getString("name")
         val detail = bundle!!.getString("detail")
         val maxplayer = bundle!!.getInt("max")
-        val currplayer = bundle!!.getInt("curr")
+        var currplayer = bundle!!.getInt("curr")
         val time = bundle!!.getString("time")
-        val listname  = bundle!!.getStringArrayList("nameList")
+        var listname  = bundle!!.getStringArrayList("nameList")
 
         list.clear()
         list.addAll(listname)
@@ -65,10 +65,11 @@ class GameBoardDetailActivity : AppCompatActivity() {
 
         if (maxplayer == currplayer){
             join.isEnabled = false
-            in_nickname.isActivated = false
         }
+
         join.setOnClickListener { view ->
-            var data = GameBoardData(name,currplayer + 1,maxplayer,time)
+            currplayer = currplayer + 1
+            var data = GameBoardData(name,currplayer,maxplayer,time)
             var ls2add = ArrayList<String>()
             ls2add.addAll(listname)
             var nameP = in_nickname.text.toString()
@@ -76,10 +77,14 @@ class GameBoardDetailActivity : AppCompatActivity() {
             data.addDetial(detail)
             data.addList(ls2add)
 //            sv.remove(name+time)
+            listname = ls2add
             sv.add(name+time,data)
-            numPView.setText(String.format("#Player = %d/%d",currplayer+1,maxplayer))
+            numPView.setText(String.format("#Player = %d/%d",currplayer,maxplayer))
             list.add(nameP)
             listApdter.notifyDataSetChanged()
+            if (maxplayer == currplayer){
+                join.isEnabled = false
+            }
 
 //            val intent = Intent(this@GameBoardDetailActivity, MainActivity::class.java)
 ////            intent.putExtra("from","create")
